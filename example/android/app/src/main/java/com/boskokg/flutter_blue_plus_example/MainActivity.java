@@ -1,4 +1,4 @@
-package com.boskokg.flutter_blue_plus_example;
+package com.drm.hilux_temperature_sensor;
 
 import io.flutter.embedding.android.FlutterActivity;
 

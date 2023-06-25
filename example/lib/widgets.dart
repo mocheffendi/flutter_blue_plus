@@ -5,6 +5,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
+String getInitials(String bleName) {
+  return bleName.isNotEmpty
+      ? bleName.trim().split(RegExp(' +')).map((s) => s[0]).take(2).join()
+      : '';
+}
+
 class ScanResultTile extends StatelessWidget {
   const ScanResultTile({Key? key, required this.result, this.onTap})
       : super(key: key);
@@ -14,23 +20,68 @@ class ScanResultTile extends StatelessWidget {
 
   Widget _buildTitle(BuildContext context) {
     if (result.device.name.isNotEmpty) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            result.device.name,
-            overflow: TextOverflow.ellipsis,
+      return Row(
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                result.device.name,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Text(
+                result.device.id.toString(),
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Text(
+                result.rssi.toString(),
+                style: Theme.of(context).textTheme.bodySmall,
+              )
+            ],
           ),
-          Text(
-            result.device.id.toString(),
-            style: Theme.of(context).textTheme.caption,
-          )
+          Container(width: 2, color: Colors.black), // This is divider
         ],
       );
     } else {
       return Text(result.device.id.toString());
     }
+  }
+
+  Widget _buildTrailing(BuildContext context) {
+    return SizedBox.fromSize(
+      size: const Size(80, 60), // button width and height
+      child: Row(
+        children: [
+          Container(
+            width: 1,
+            color: const Color.fromARGB(255, 128, 128, 128),
+            margin: const EdgeInsets.only(right: 20.0),
+          ), // This is divider
+          Material(
+            color: Colors.transparent, // button color
+            child: InkWell(
+              splashColor: Colors.green, // splash color
+              onTap: (result.advertisementData.connectable)
+                  ? onTap
+                  : null, // button pressed
+              child: const Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.phonelink_setup,
+                    size: 28,
+                  ), // icon
+                  Text("Connect",
+                      style: TextStyle(fontWeight: FontWeight.bold)), // text
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildAdvRow(BuildContext context, String title, String value) {
@@ -39,7 +90,7 @@ class ScanResultTile extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(title, style: Theme.of(context).textTheme.caption),
+          Text(title, style: Theme.of(context).textTheme.bodySmall),
           const SizedBox(
             width: 12.0,
           ),
@@ -48,7 +99,7 @@ class ScanResultTile extends StatelessWidget {
               value,
               style: Theme.of(context)
                   .textTheme
-                  .caption
+                  .bodySmall
                   ?.apply(color: Colors.black),
               softWrap: true,
             ),
@@ -88,33 +139,77 @@ class ScanResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      title: _buildTitle(context),
-      leading: Text(result.rssi.toString()),
-      trailing: ElevatedButton(
-        child: const Text('CONNECT'),
-        style: ElevatedButton.styleFrom(
-          primary: Colors.black,
-          onPrimary: Colors.white,
-        ),
-        onPressed: (result.advertisementData.connectable) ? onTap : null,
+    return Container(
+      margin: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 12, 0, 12),
+      decoration: BoxDecoration(
+        color: const Color.fromARGB(255, 168, 168, 168),
+        border: Border.all(
+            width: 1, color: const Color.fromARGB(255, 168, 168, 168)),
+        borderRadius: BorderRadius.circular(12),
       ),
-      children: <Widget>[
-        _buildAdvRow(
-            context, 'Complete Local Name', result.advertisementData.localName),
-        _buildAdvRow(context, 'Tx Power Level',
-            '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
-        _buildAdvRow(context, 'Manufacturer Data',
-            getNiceManufacturerData(result.advertisementData.manufacturerData)),
-        _buildAdvRow(
-            context,
-            'Service UUIDs',
-            (result.advertisementData.serviceUuids.isNotEmpty)
-                ? result.advertisementData.serviceUuids.join(', ').toUpperCase()
-                : 'N/A'),
-        _buildAdvRow(context, 'Service Data',
-            getNiceServiceData(result.advertisementData.serviceData)),
-      ],
+      child: ExpansionTile(
+          title: _buildTitle(context),
+          leading: CircleAvatar(child: Text(getInitials(result.device.name))),
+          // trailing: ElevatedButton(
+          //   child: const Text('CONNECT'),
+          //   style: ElevatedButton.styleFrom(
+          //     foregroundColor: Colors.white,
+          //     backgroundColor: Colors.black,
+          //   ),
+          //   onPressed: (result.advertisementData.connectable) ? onTap : null,
+          // ),
+          // trailing: InkWell(
+          //   onTap: () {},
+          //   child: Material(
+          //     elevation: 5,
+          //     child: Container(
+          //       width: 48,
+          //       height: 48,
+          //       decoration: const BoxDecoration(
+          //           color: Colors.blueAccent,
+          //           borderRadius: BorderRadius.all(Radius.circular(8))),
+          //       child: Column(
+          //         mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [
+          //           IconButton(
+          //               padding: const EdgeInsets.all(0),
+          //               onPressed:
+          //                   (result.advertisementData.connectable) ? onTap : null,
+          //               icon: const Icon(Icons.favorite)),
+          //           const Text('Connect'),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          // trailing: TextButton.icon(
+          //   onPressed: (result.advertisementData.connectable) ? onTap : null,
+          //   icon: const Icon(Icons.delete),
+          //   label: const Text('Delete item'),
+          // ),
+          children: <Widget>[
+            _buildAdvRow(context, 'Complete Local Name',
+                result.advertisementData.localName),
+            _buildAdvRow(context, 'Tx Power Level',
+                '${result.advertisementData.txPowerLevel ?? 'N/A'}'),
+            _buildAdvRow(
+                context,
+                'Manufacturer Data',
+                getNiceManufacturerData(
+                    result.advertisementData.manufacturerData)),
+            _buildAdvRow(
+                context,
+                'Service UUIDs',
+                (result.advertisementData.serviceUuids.isNotEmpty)
+                    ? result.advertisementData.serviceUuids
+                        .join(', ')
+                        .toUpperCase()
+                    : 'N/A'),
+            _buildAdvRow(context, 'Service Data',
+                getNiceServiceData(result.advertisementData.serviceData)),
+          ],
+          trailing: _buildTrailing(context)),
     );
   }
 }
@@ -137,8 +232,8 @@ class ServiceTile extends StatelessWidget {
           children: <Widget>[
             const Text('Service'),
             Text('0x${service.uuid.toString().toUpperCase().substring(4, 8)}',
-                style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                    color: Theme.of(context).textTheme.caption?.color))
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).textTheme.bodySmall?.color))
           ],
         ),
         children: characteristicTiles,
@@ -185,8 +280,8 @@ class CharacteristicTile extends StatelessWidget {
                 const Text('Characteristic'),
                 Text(
                     '0x${characteristic.uuid.toString().toUpperCase().substring(4, 8)}',
-                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
-                        color: Theme.of(context).textTheme.caption?.color))
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(context).textTheme.bodySmall?.color))
               ],
             ),
             subtitle: Text(value.toString()),
@@ -245,10 +340,8 @@ class DescriptorTile extends StatelessWidget {
         children: <Widget>[
           const Text('Descriptor'),
           Text('0x${descriptor.uuid.toString().toUpperCase().substring(4, 8)}',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1
-                  ?.copyWith(color: Theme.of(context).textTheme.caption?.color))
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).textTheme.bodySmall?.color))
         ],
       ),
       subtitle: StreamBuilder<List<int>>(
@@ -291,11 +384,11 @@ class AdapterStateTile extends StatelessWidget {
       child: ListTile(
         title: Text(
           'Bluetooth adapter is ${state.toString().substring(15)}',
-          style: Theme.of(context).primaryTextTheme.subtitle2,
+          style: Theme.of(context).primaryTextTheme.titleSmall,
         ),
         trailing: Icon(
           Icons.error,
-          color: Theme.of(context).primaryTextTheme.subtitle2?.color,
+          color: Theme.of(context).primaryTextTheme.titleSmall?.color,
         ),
       ),
     );

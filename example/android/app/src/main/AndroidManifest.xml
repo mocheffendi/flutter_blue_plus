@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.boskokg.flutter_blue_plus_example">
+    package="com.drm.hilux_temperature_sensor">
     <!-- Allow Bluetooth -->
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -24,7 +24,7 @@
     the ACCESS_BACKGROUND_LOCATION permission to discover Bluetooth devices. -->
     <!-- <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> -->
    <application
-        android:label="flutter_blue_plus_example"
+        android:label="Hilux Sensor"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
