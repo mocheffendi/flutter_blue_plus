@@ -54,7 +54,7 @@ class MainWrapper extends StatelessWidget {
                     icon: IconlyLight.wallet,
                     page: 1,
                     context,
-                    label: "Wallet"),
+                    label: "Sensor"),
                 _bottomAppBarItem(
                     icon: IconlyLight.chart,
                     page: 2,
@@ -64,7 +64,7 @@ class MainWrapper extends StatelessWidget {
                     icon: IconlyLight.profile,
                     page: 3,
                     context,
-                    label: "Profile"),
+                    label: "About"),
               ],
             ),
           ),

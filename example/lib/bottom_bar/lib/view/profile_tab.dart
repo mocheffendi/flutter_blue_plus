@@ -10,7 +10,7 @@ class ProfileTab extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "profile",
+          "About",
           style: Theme.of(context).textTheme.displayLarge,
         ),
         const Icon(

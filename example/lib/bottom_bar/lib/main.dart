@@ -1,10 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
-import '../../controller/main_wrapper_controller.dart';
-import '../../main_wrapper.dart';
-import '../../utils/themes.dart';
+import 'controller/main_wrapper_controller.dart';
+import 'main_wrapper.dart';
+import 'utils/themes.dart';
 
 /////////////////////////////////
 // 🔥 CodeWithFlexz on Instagram
@@ -14,14 +17,27 @@ import '../../utils/themes.dart';
 ////////////////////////////////
 
 void main() {
-  runApp(const MyApp());
+  if (Platform.isAndroid) {
+    WidgetsFlutterBinding.ensureInitialized();
+    [
+      Permission.location,
+      Permission.storage,
+      Permission.bluetooth,
+      Permission.bluetoothConnect,
+      Permission.bluetoothScan
+    ].request().then((status) {
+      runApp(const FlutterBlueApp());
+    });
+  } else {
+    runApp(const FlutterBlueApp());
+  }
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class FlutterBlueApp extends StatelessWidget {
+  const FlutterBlueApp({super.key});
 
   @override
   Widget build(BuildContext context) {

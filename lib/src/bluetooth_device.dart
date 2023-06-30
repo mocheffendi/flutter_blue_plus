@@ -24,7 +24,7 @@ class BluetoothDevice {
         type = type ?? BluetoothDeviceType.unknown;
 
   final BehaviorSubject<bool> _isDiscoveringServices = BehaviorSubject(false);
-  
+
   Stream<bool> get isDiscoveringServices => _isDiscoveringServices.stream;
 
   /// Establishes a connection to the Bluetooth Device.
@@ -33,7 +33,6 @@ class BluetoothDevice {
     bool autoConnect = true,
     bool shouldClearGattCache = true,
   }) async {
-
     if (Platform.isAndroid && shouldClearGattCache) {
       clearGattCache();
     }
@@ -241,7 +240,7 @@ class BluetoothDevice {
   ///
   /// Please note that this is just a recommendation, whether the PHY change
   /// will happen depends on other applications preferences, local and remote
-  /// controller capabilities. Controller can override these settings. 
+  /// controller capabilities. Controller can override these settings.
   Future<void> setPreferredPhy({
     required int txPhy,
     required int rxPhy,
@@ -311,4 +310,5 @@ extension PhyTypeExt on PhyType {
   }
 }
 
+// ignore: constant_identifier_names
 enum PhyOption { noPreferred, S2, S8 }
