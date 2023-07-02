@@ -32,15 +32,6 @@ class _SensorPageState extends State<SensorPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // controller = AnimationController(
-    //   /// [AnimationController]s can be created with `vsync: this` because of
-    //   /// [TickerProviderStateMixin].
-    //   vsync: this,
-    //   duration: const Duration(seconds: 5),
-    // )..addListener(() {
-    //     setState(() {});
-    //   });
-    // controller.repeat(reverse: true);
     super.initState();
     isReady = false;
     connectToDevice();
