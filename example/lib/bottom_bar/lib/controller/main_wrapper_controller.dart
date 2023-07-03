@@ -19,7 +19,7 @@ class MainWrapperController extends GetxController {
     const HomeTab(),
     const CartTab(),
     const StatisticsTab(),
-    const ProfileTab(),
+    ProfileTab(),
   ];
 
   ThemeMode get theme => Get.isDarkMode ? ThemeMode.dark : ThemeMode.light;
@@ -28,7 +28,7 @@ class MainWrapperController extends GetxController {
     Get.changeThemeMode(mode);
   }
 
-  void goToTab(int page) {
+  goToTab(int page) {
     currentPage.value = page;
     pageController.jumpToPage(page);
   }

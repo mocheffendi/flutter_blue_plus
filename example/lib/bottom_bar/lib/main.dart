@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bottom_bar/view/screen_binding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -18,7 +19,8 @@ import 'utils/themes.dart';
 
 void main() {
   if (Platform.isAndroid) {
-    WidgetsFlutterBinding.ensureInitialized();
+    // WidgetsFlutterBinding.ensureInitialized();
+    InitialScreenBindings().dependencies();
     [
       Permission.location,
       Permission.storage,
@@ -42,6 +44,7 @@ class FlutterBlueApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: InitialScreenBindings(),
       title: 'Bottom AppBar',
       debugShowCheckedModeBanner: false,
       theme: Themes.lightTheme,

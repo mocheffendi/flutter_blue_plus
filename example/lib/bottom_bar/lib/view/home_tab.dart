@@ -1,10 +1,30 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconly/iconly.dart';
+import '../controller/main_wrapper_controller.dart';
+import 'package:bottom_bar/view/screen_binding.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
+
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+  final MainWrapperController _mainWrapperController =
+      Get.find<MainWrapperController>();
+
+  @override
+  void initState() {
+    super.initState();
+    InitialScreenBindings();
+    // Get.lazyPut<MainWrapperController>(() => MainWrapperController(),
+    // fenix: true);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -233,6 +253,15 @@ List<Color> progressCardGradientList = [
   HexColor.fromHex("EEB2E8"),
 ];
 
+List<Color> cardGradientList = [
+  //grenn
+  const Color.fromARGB(255, 227, 0, 248),
+  //blue
+  const Color.fromARGB(255, 252, 39, 127),
+  //pink
+  const Color.fromARGB(255, 212, 58, 11),
+];
+
 class BoxDecorationStyles {
   static final BoxDecoration fadingGlory = BoxDecoration(
     gradient: LinearGradient(
@@ -286,13 +315,13 @@ class DarkRadialBackground extends StatelessWidget {
   }
 }
 
-class PlanCard extends StatelessWidget {
+class PlanCard extends StatefulWidget {
   final int selectedIndex;
   final ValueNotifier<int> notifierValue;
 
   final String header;
   final String subHeader;
-  PlanCard(
+  const PlanCard(
       {Key? key,
       required this.selectedIndex,
       required this.notifierValue,
@@ -301,15 +330,34 @@ class PlanCard extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<PlanCard> createState() => _PlanCardState();
+}
+
+class _PlanCardState extends State<PlanCard> {
+  final MainWrapperController _mainWrapperController =
+      Get.find<MainWrapperController>();
+
+  @override
+  void initState() {
+    super.initState();
+    InitialScreenBindings();
+    // Get.lazyPut<MainWrapperController>(() => MainWrapperController(),
+    // fenix: true);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Expanded(
       child: InkWell(
           onTap: () {
-            notifierValue.value = selectedIndex;
-            print(notifierValue.value);
+            widget.notifierValue.value = widget.selectedIndex;
+            print(widget.notifierValue.value);
+            Timer(const Duration(milliseconds: 500), () {
+              _mainWrapperController.goToTab(widget.notifierValue.value);
+            });
           },
           child: ValueListenableBuilder(
-              valueListenable: notifierValue,
+              valueListenable: widget.notifierValue,
               builder: (BuildContext context, _, __) {
                 return Container(
                     width: 180,
@@ -318,14 +366,14 @@ class PlanCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                       gradient: RadialGradient(
                         colors: [
-                          ...progressCardGradientList,
+                          ...cardGradientList,
                         ],
                         center: const Alignment(1, 1),
                         focal: const Alignment(0.3, -0.1),
                         focalRadius: 1.0,
                       ),
                     ),
-                    child: notifierValue.value != selectedIndex
+                    child: widget.notifierValue.value != widget.selectedIndex
                         ? Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: DecoratedBox(
@@ -339,13 +387,13 @@ class PlanCard extends StatelessWidget {
                                             MainAxisAlignment.center,
                                         children: [
                                       const SizedBox(height: 40),
-                                      Text(header,
+                                      Text(widget.header,
                                           style: GoogleFonts.lato(
                                               color: Colors.white,
                                               fontWeight: FontWeight.bold,
                                               fontSize: 24)),
                                       AppSpaces.verticalSpace10,
-                                      Text(subHeader,
+                                      Text(widget.subHeader,
                                           style: GoogleFonts.lato(
                                               color:
                                                   HexColor.fromHex("F7A3F9")))
@@ -373,13 +421,14 @@ class PlanCard extends StatelessWidget {
                                   const Text("🎉",
                                       style: TextStyle(fontSize: 40)),
                                   AppSpaces.verticalSpace20,
-                                  Text(header,
+                                  Text(widget.header,
                                       style: GoogleFonts.lato(
                                           color: Colors.black,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 24)),
                                   AppSpaces.verticalSpace10,
-                                  Text(subHeader, style: GoogleFonts.lato())
+                                  Text(widget.subHeader,
+                                      style: GoogleFonts.lato())
                                 ]))
                           ]));
               })),
