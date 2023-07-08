@@ -1,4 +1,4 @@
-import 'package:bottom_bar/view/home_tab.dart';
+// import 'package:bottom_bar/view/home_tab.dart';
 import 'package:bottom_bar/view/screen_binding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +6,7 @@ import 'package:iconly/iconly.dart';
 import '../controller/main_wrapper_controller.dart';
 
 class ProfileTab extends StatefulWidget {
-  ProfileTab({super.key});
+  const ProfileTab({super.key});
 
   @override
   State<ProfileTab> createState() => _ProfileTabState();

@@ -18,7 +18,7 @@ class MainWrapper extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Bottom AppBar Example",
+          "Temperature & Humidity",
           style: Theme.of(context).textTheme.titleMedium,
         ),
         centerTitle: true,
@@ -29,7 +29,7 @@ class MainWrapper extends StatelessWidget {
               onChanged: (newVal) {
                 _mainWrapperController.isDarkTheme.value = newVal;
                 _mainWrapperController
-                    .switchTheme(newVal ? ThemeMode.dark : ThemeMode.light);
+                    .switchTheme(newVal ? ThemeMode.light : ThemeMode.dark);
               },
             ),
           )

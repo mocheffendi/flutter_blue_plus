@@ -1,7 +1,10 @@
+import 'package:bottom_bar/sensor/sensor.dart';
+import 'package:bottom_bar/view/cart_tab.dart';
+import 'package:bottom_bar/view/sensor_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../view/cart_tab.dart';
+// import '../view/cart_tab.dart';
 import '../view/home_tab.dart';
 import '../view/profile_tab.dart';
 import '../view/statistics_tab.dart';
@@ -10,7 +13,7 @@ class MainWrapperController extends GetxController {
   late PageController pageController;
 
   RxInt currentPage = 0.obs;
-  RxBool isDarkTheme = false.obs;
+  RxBool isDarkTheme = true.obs;
 
   // String MacAddress = '24:0A:C4:09:89:0A';
   // String deviceUUID = "4fafc201-1fb5-459e-8fcc-c5c9c331914b";
@@ -19,10 +22,10 @@ class MainWrapperController extends GetxController {
     const HomeTab(),
     const CartTab(),
     const StatisticsTab(),
-    ProfileTab(),
+    const ProfileTab(),
   ];
 
-  ThemeMode get theme => Get.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  ThemeMode get theme => Get.isDarkMode ? ThemeMode.light : ThemeMode.dark;
 
   void switchTheme(ThemeMode mode) {
     Get.changeThemeMode(mode);

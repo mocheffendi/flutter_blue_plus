@@ -15,8 +15,8 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  final MainWrapperController _mainWrapperController =
-      Get.find<MainWrapperController>();
+  // final MainWrapperController _mainWrapperController =
+  //     Get.find<MainWrapperController>();
 
   @override
   void initState() {
@@ -255,7 +255,7 @@ List<Color> progressCardGradientList = [
 
 List<Color> cardGradientList = [
   //grenn
-  const Color.fromARGB(255, 227, 0, 248),
+  const Color.fromARGB(255, 41, 16, 132),
   //blue
   const Color.fromARGB(255, 252, 39, 127),
   //pink

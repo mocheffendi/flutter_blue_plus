@@ -35,6 +35,7 @@ dependencies:
       ref: f37742bcf612c51e9571d623138a21a90a5992ea
   fl_chart: ^0.63.0
   google_fonts: ^5.1.0
+  syncfusion_flutter_gauges: ^22.1.37
 
 dev_dependencies:
   flutter_test:

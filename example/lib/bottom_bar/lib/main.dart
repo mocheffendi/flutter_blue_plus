@@ -45,7 +45,7 @@ class FlutterBlueApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       initialBinding: InitialScreenBindings(),
-      title: 'Bottom AppBar',
+      title: 'Hilux Sensor',
       debugShowCheckedModeBanner: false,
       theme: Themes.lightTheme,
       darkTheme: Themes.darkTheme,

@@ -4,7 +4,7 @@ import 'color_constants.dart';
 
 class Themes {
   static ThemeData lightTheme = ThemeData(
-      fontFamily: "Open Sans",
+      fontFamily: "Lato",
       primarySwatch: Colors.blue,
       brightness: Brightness.light,
       appBarTheme: AppBarTheme(
@@ -77,7 +77,7 @@ class Themes {
               letterSpacing: -0.5)));
 
   static ThemeData darkTheme = ThemeData(
-    fontFamily: "Open Sans",
+    fontFamily: "Lato",
     primaryColor: Colors.blue,
     primarySwatch: Colors.blue,
     brightness: Brightness.dark,
